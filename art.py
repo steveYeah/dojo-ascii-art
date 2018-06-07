@@ -7,18 +7,14 @@ import numpy
 from PIL import Image
 
 
-def convert(file, outfile, width):
+def convert(file, width):
     image = Image.open(file.name).convert('L')
-    import pdb; pdb.set_trace()
 
-    image_width = image.shape[1]
-    image_height = image.shape[0]
+    factor = image.width // width
+    height = image.height // factor
 
-    int(factor) = image_width / width
-    height = image_hight / factor
-
-    image.resize((width, height))
-    data = numpy.array(image, dtype="int32" )
+    image = image.resize((width, height))
+    data = numpy.array(image, dtype="int32")
 
     out = []
 
@@ -26,8 +22,12 @@ def convert(file, outfile, width):
         out_line = []
         out.append(out_line)
         for col in row:
-            value = chr(col) + 255
+            value = chr(col + 255)
             out_line.append(value)
+
+    for line in out:
+        print(''.join(line))
+
 
 def main(argv):
     parser = argparse.ArgumentParser(
@@ -35,13 +35,12 @@ def main(argv):
     )
 
     parser.add_argument('file', type=argparse.FileType('r'))
-    parser.add_argument('outfile', type=argparse.FileType('w'))
     parser.add_argument('--width', type=int, default=78)
 
 
     parsed = parser.parse_args()
 
-    return convert(parsed.file, parsed.outfile, width)
+    return convert(parsed.file, parsed.width)
 
 
 if __name__ == "__main__":
