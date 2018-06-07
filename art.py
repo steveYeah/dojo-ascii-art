@@ -9,11 +9,25 @@ from PIL import Image
 
 def convert(file, outfile, width):
     image = Image.open(file.name).convert('L')
-    data = numpy.array(image, dtype="int32" )
     import pdb; pdb.set_trace()
 
-    # width of the matrix / width
+    image_width = image.shape[1]
+    image_height = image.shape[0]
 
+    int(factor) = image_width / width
+    height = image_hight / factor
+
+    image.resize((width, height))
+    data = numpy.array(image, dtype="int32" )
+
+    out = []
+
+    for row in data:
+        out_line = []
+        out.append(out_line)
+        for col in row:
+            value = chr(col) + 255
+            out_line.append(value)
 
 def main(argv):
     parser = argparse.ArgumentParser(
